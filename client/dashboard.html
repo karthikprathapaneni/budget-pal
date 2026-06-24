@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Pal Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <div class="sidebar">
+        <h2>💰 Budget Pal</h2>
+
+        <ul>
+            <li>🏠 Dashboard</li>
+            <li>💸 Expenses</li>
+            <li>📋 Budget Planner</li>
+            <li>🎯 Savings Goals</li>
+            <li>📊 Analytics</li>
+            <li>🤖 AI Advisor</li>
+            <li onclick="toggleDarkMode()">🌙 Dark Mode</li>
+            <li onclick="window.location='admin.html'">🛠 Admin Dashboard</li>
+        </ul>
+    </div>
+
+    <div class="main">
+
+        <h1>Financial Dashboard</h1>
+
+        <div class="cards">
+            <div class="card">
+                <h3>Total Expenses</h3>
+                <h2 id="totalExpense">₹0</h2>
+            </div>
+
+            <div class="card">
+                <h3>Total Budget</h3>
+                <h2 id="totalBudget">₹0</h2>
+            </div>
+
+            <div class="card">
+                <h3>Total Savings</h3>
+                <h2 id="totalSavings">₹0</h2>
+            </div>
+
+            <div class="card">
+                <h3>Health Score</h3>
+                <h2 id="healthScore">0/100</h2>
+            </div>
+        </div>
+
+        <div class="expense-form">
+            <h2>Add Expense</h2>
+
+            <input type="text" id="category" placeholder="Expense Category">
+            <input type="number" id="amount" placeholder="Amount">
+
+            <button onclick="addExpense()">Add Expense</button>
+        </div>
+
+        <div class="expense-form">
+            <h2>Expense Search & Filters</h2>
+
+            <input type="text" id="filterCategory" placeholder="Search by Category">
+            <input type="date" id="filterDate">
+            <input type="number" id="minAmount" placeholder="Minimum Amount">
+            <input type="number" id="maxAmount" placeholder="Maximum Amount">
+
+            <button onclick="filterExpenses()">Apply Filter</button>
+            <button onclick="loadAll()">Clear Filter</button>
+        </div>
+
+        <div class="expense-form">
+            <h2>Budget Planner</h2>
+
+            <input type="text" id="budgetCategory" placeholder="Budget Category">
+            <input type="number" id="budgetAmount" placeholder="Budget Amount">
+
+            <button onclick="addBudget()">Add Budget</button>
+
+            <br><br>
+            <ul id="budgetList"></ul>
+        </div>
+
+        <div class="expense-form">
+            <h2>Savings Goals</h2>
+
+            <input type="text" id="goalName" placeholder="Goal Name">
+            <input type="number" id="targetAmount" placeholder="Target Amount">
+            <input type="number" id="savedAmount" placeholder="Saved Amount">
+
+            <button onclick="addGoal()">Add Goal</button>
+
+            <br><br>
+            <ul id="goalList"></ul>
+        </div>
+<div class="expense-form">
+
+    <h2>👨‍👩‍👧‍👦 Family Budget Management</h2>
+
+    <input type="text" id="memberName" placeholder="Member Name">
+
+    <input type="text" id="relation" placeholder="Relation (Father/Mother/Son/Daughter)">
+
+    <input type="email" id="memberEmail" placeholder="Email">
+
+    <input type="number" id="monthlyBudget" placeholder="Monthly Budget">
+
+    <input type="number" id="expenseLimit" placeholder="Expense Limit">
+
+    <button onclick="addFamilyMember()">
+        Add Family Member
+    </button>
+
+    <br><br>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Total Members</h3>
+            <h2 id="familyMembersCount">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Family Budget</h3>
+            <h2 id="familyBudgetTotal">₹0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Expense Limit</h3>
+            <h2 id="familyExpenseLimit">₹0</h2>
+        </div>
+
+    </div>
+
+    <br>
+
+    <ul id="familyList"></ul>
+
+</div>
+
+        <div class="expense-form">
+            <h2>🤖 AI Savings Optimizer</h2>
+
+            <button onclick="getSavingsAdvice()">Analyze My Spending</button>
+
+            <div id="aiAdvice"></div>
+        </div>
+
+        <div class="charts">
+            <div class="chart-box">
+                <h2>Expense Category Pie Chart</h2>
+                <canvas id="expenseChart"></canvas>
+            </div>
+
+            <div class="chart-box">
+                <h2>Monthly Expense Chart</h2>
+                <canvas id="budgetChart"></canvas>
+            </div>
+        </div>
+
+        <div class="expenses">
+            <h2>Recent Expenses</h2>
+            <ul id="expenseList"></ul>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Budget Pal Admin</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <div class="sidebar">
+        <h2>💰 Budget Pal</h2>
+        <ul>
+            <li onclick="window.location='dashboard.html'">🏠 User Dashboard</li>
+            <li>🛠 Admin Dashboard</li>
+            <li onclick="downloadPDF()">📄 Download Report</li>
+        </ul>
+    </div>
+
+    <div class="main" id="reportArea">
+
+        <h1>Admin Dashboard</h1>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Total Users</h3>
+                <h2 id="adminUsers">0</h2>
+            </div>
+
+            <div class="card">
+                <h3>Total Expenses</h3>
+                <h2 id="adminExpenses">₹0</h2>
+            </div>
+
+            <div class="card">
+                <h3>Total Goals</h3>
+                <h2 id="adminGoals">0</h2>
+            </div>
+
+            <div class="card">
+                <h3>Top Category</h3>
+                <h2 id="adminTopCategory">No Data</h2>
+            </div>
+
+        </div>
+
+        <div class="expenses">
+            <h2>Recent User Expenses</h2>
+            <ul id="adminExpenseList"></ul>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const API = "http://localhost:5000";
+
+function loadAdminSummary() {
+    fetch(API + "/admin/full-summary")
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("adminUsers").innerText = data.totalUsers;
+        document.getElementById("adminExpenses").innerText = "₹" + data.totalExpenses;
+        document.getElementById("adminGoals").innerText = data.totalGoals;
+        document.getElementById("adminTopCategory").innerText =
+            data.topCategory + " ₹" + data.topCategoryAmount;
+    });
+}
+
+function loadAdminExpenses() {
+    fetch(API + "/admin/recent-expenses")
+    .then(res => res.json())
+    .then(data => {
+        const list = document.getElementById("adminExpenseList");
+        list.innerHTML = "";
+
+        data.forEach(item => {
+            const li = document.createElement("li");
+            li.innerHTML =
+                `${item.name} - ${item.category} - ₹${item.amount} - ${item.expense_date}`;
+            list.appendChild(li);
+        });
+    });
+}
+
+function downloadPDF() {
+    const report = document.getElementById("reportArea");
+
+    html2canvas(report).then(canvas => {
+        const imgData = canvas.toDataURL("image/png");
+
+        const pdf = new jspdf.jsPDF("p", "mm", "a4");
+
+        const imgWidth = 190;
+        const pageHeight = 295;
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+
+        pdf.text("Budget Pal Admin Report", 10, 10);
+        pdf.addImage(imgData, "PNG", 10, 20, imgWidth, imgHeight);
+
+        pdf.save("BudgetPal_Report.pdf");
+    });
+}
+
+window.onload = function () {
+    loadAdminSummary();
+    loadAdminExpenses();
+};
+</script>
+
+</body>
+</html>
